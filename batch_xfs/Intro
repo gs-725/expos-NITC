@@ -1,0 +1,6 @@
+These files can be used to automate the loading process in the XFS -interface provided.Now to do this do the following steps:
+1)Open terminal
+2)cd $HOME/myexpos/xfs-interface (or whatever path you have saved the xfs-package provided )
+3)./xfs-interface run batchfilenaem (Now if you have saved your batch file in other directory except the xfs-interface directory you have to specify the entire path)
+4)This will upload all your codes into the disk.xfs file
+5)Remember:Never run the xsm machine  and the xfs-interface simultaneously as it might lead to inconsistances in the disk.
