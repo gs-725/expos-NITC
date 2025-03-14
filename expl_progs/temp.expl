@@ -1,0 +1,50 @@
+decl
+	int m;
+	int func(int n);
+enddecl
+int func(int n)
+{
+decla
+	int i,j,t,b;
+	int a[n];
+endecl
+begin
+i=0;
+	while(i<n)do
+		b=exposcall("Read",-1,a[i]);
+		i=i+1;
+	endwhile;
+	i=0;
+	while(i<n) do
+	    j=i;
+	    while(j<n) do
+	      if(a[i]>a[j]) then
+		t = a[i];
+		a[i] = a[j];
+		a[j] = t;
+	      endif;
+	      j = j + 1;
+	    endwhile;
+    	   i = i+1;
+ 	 endwhile;
+ 	i=0;
+	while(i<n)do
+		b=exposcall("Write",-2,a[i]);
+		i=i+1;
+	endwhile;
+	return 1;
+end
+}
+
+int main(){
+decl
+int b;
+enddecl
+begin
+	b=exposcall("Read",-1,m);
+	b=func(m);
+	
+	
+	return 0;
+end	
+}

@@ -1,0 +1,27 @@
+int main()
+{
+decl
+	int temp,n;
+enddecl
+begin
+	n=1;
+	while(n<=100)do
+		if((n%2)!=0)then
+			temp=exposcall("Write",-2,n);
+		endif;
+		n=n+1;
+	endwhile;
+	return 0;		
+end	
+}
+
+
+
+
+
+
+
+
+
+
+
