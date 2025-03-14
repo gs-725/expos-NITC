@@ -1,0 +1,13 @@
+fdisk
+load --os $HOME/myexpos/spl/spl_progs/os_startup_s14.xsm
+load --int=timer #HOME/myexpos/spl/spl_progs/timer_interrupt_s14.xsm
+load --module 7 $HOME/myexpos/spl/spl_progs/boot_module_assg1_s14.xsm
+load --module 5 $HOME/myexpos/spl/spl_progs/scheduler_s14.xsm
+load --int=10 #HOME/myexpos/spl/spl_progs/int_10_s14.xsm
+load --int=7 $HOME/myexpos/spl/spl_progs/int_7_s14.xsm
+load --exhandler #HOME/myexpos/spl/spl_progs/haltprog.xsm
+load --idle $HOME/myexpos/expl/expl_progs/idle_code_assg1_s14.xsm
+load --init $HOME/myexpos/expl/expl_progs/init_code_assg1_s14.xsm
+load --exec $HOME/myexpos/expl/expl_progs/odda_s14.xsm
+load --exec $HOME/myexpos/expl/expl_progs/pria_s14.xsm
+load --library $HOME/myexpos/expl/library.lib

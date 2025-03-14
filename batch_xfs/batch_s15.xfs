@@ -1,0 +1,14 @@
+fdisk
+load --os $HOME/myexpos/spl/spl_progs/os_startup_s15.xsm
+load --int=timer #HOME/myexpos/spl/spl_progs/timer_interrupt_s15.xsm
+load --module 7 $HOME/myexpos/spl/spl_progs/boot_module_s15.xsm
+load --module 5 $HOME/myexpos/spl/spl_progs/scheduler_s15.xsm
+load --int=10 #HOME/myexpos/spl/spl_progs/int_10_s15.xsm
+load --int=7 $HOME/myexpos/spl/spl_progs/int_7_s15.xsm
+load --exhandler #HOME/myexpos/spl/spl_progs/haltprog.xsm
+load --idle $HOME/myexpos/expl/expl_progs/idle_code_s15.xsm
+load --init $HOME/myexpos/expl/expl_progs/init_code_s15.xsm
+load --exec $HOME/myexpos/expl/expl_progs/odd_s15.xsm
+load --library $HOME/myexpos/expl/library.lib
+load --module 0 $HOME/myexpos/spl/spl_progs/resource_manager_module_0_s15.xsm
+load --module 4 $HOME/myexpos/spl/spl_progs/device_manager_module_4_s15.xsm

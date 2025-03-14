@@ -1,0 +1,40 @@
+fdisk 
+load --os $HOME/myexpos/spl/spl_progs/os_startup_s27.xsm
+load --int=timer $HOME/myexpos/spl/spl_progs/timer_interrupt_s27.xsm
+load --module 7 $HOME/myexpos/spl/spl_progs/boot_module_s27.xsm
+load --module 5 $HOME/myexpos/spl/spl_progs/scheduler_s27.xsm
+load --int=10 $HOME/myexpos/spl/spl_progs/int_10_s21.xsm
+load --int=7 $HOME/myexpos/spl/spl_progs/int_7_s25.xsm
+load --exhandler $HOME/myexpos/spl/spl_progs/exception_handler_s19.xsm
+load --idle $HOME/myexpos/expl/expl_progs/idle_code_s16.xsm
+load --init $HOME/myexpos/expl/expl_progs/init_code_s26.xsm
+load --library $HOME/myexpos/expl/library.lib
+load --module 0 $HOME/myexpos/spl/spl_progs/resource_manager_module_0_s24.xsm
+load --module 4 $HOME/myexpos/spl/spl_progs/device_manager_module_4_s23.xsm
+load --int=6 $HOME/myexpos/spl/spl_progs/int_6_s24.xsm
+load --int=console $HOME/myexpos/spl/spl_progs/console_interrupt_s16.xsm
+load --int=9 $HOME/myexpos/spl/spl_progs/int_9_s19.xsm
+load --module 1 $HOME/myexpos/spl/spl_progs/process_manager_module_1_s25.xsm
+load --module 2 $HOME/myexpos/spl/spl_progs/memory_manager_module_2_s27.xsm
+load --int=disk $HOME/myexpos/spl/spl_progs/disk_interrupt_s18.xsm
+load --int=8 $HOME/myexpos/spl/spl_progs/int_8_fork_s24.xsm
+load --int=11 $HOME/myexpos/spl/spl_progs/int_11_s21.xsm
+load --int=15 $HOME/myexpos/spl/spl_progs/int_15_s26.xsm
+load --int=13 $HOME/myexpos/spl/spl_progs/int_13_s22.xsm
+load --int=14 $HOME/myexpos/spl/spl_progs/int_14_s22.xsm
+load --int=4 $HOME/myexpos/spl/spl_progs/int_4_s23.xsm
+load --int=5 $HOME/myexpos/spl/spl_progs/int_5_s25.xsm
+load --int=16 $HOME/myexpos/spl/spl_progs/int_16_s26.xsm
+load --int=12 $HOME/myexpos/spl/spl_progs/int_12_s26.xsm
+load --int=17 $HOME/myexpos/spl/spl_progs/int_17_s26.xsm
+load --module 3 $HOME/myexpos/spl/spl_progs/file_manager_module_3_s25.xsm
+load --module 6 $HOME/myexpos/spl/spl_progs/pager_module_6_s27.xsm
+load --exec $HOME/myexpos/expl/expl_progs/ls.xsm
+load --exec $HOME/myexpos/expl/expl_progs/rm.xsm
+load --exec $HOME/myexpos/expl/expl_progs/cp.xsm
+load --exec $HOME/myexpos/expl/expl_progs/cat.xsm
+load --exec $HOME/myexpos/expl/expl_progs//lu.xsm
+load --exec $HOME/myexpos/expl/expl_progs/ru.xsm
+load --shell $HOME/myexpos/expl/expl_progs/shell_s26.xsm
+load --exec $HOME/myexpos/expl/expl_progs/as3_s27.xsm
+load --exec $HOME/myexpos/expl/expl_progs/pgm1.xsm

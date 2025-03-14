@@ -1,0 +1,24 @@
+fdisk
+load --os $HOME/myexpos/spl/spl_progs/os_startup_s16.xsm
+load --int=timer $HOME/myexpos/spl/spl_progs/timer_interrupt_s16.xsm
+load --module 7 $HOME/myexpos/spl/spl_progs/boot_module_s21.xsm
+load --module 5 $HOME/myexpos/spl/spl_progs/scheduler_s20.xsm
+load --int=10 $HOME/myexpos/spl/spl_progs/int_10_s21.xsm
+load --int=7 $HOME/myexpos/spl/spl_progs/int_7_s16.xsm
+load --exhandler $HOME/myexpos/spl/spl_progs/exception_handler_s19.xsm
+load --idle $HOME/myexpos/expl/expl_progs/idle_code_s16.xsm
+load --init $HOME/myexpos/expl/expl_progs/assg1_init_s21.xsm
+load --library $HOME/myexpos/expl/library.lib
+load --module 0 $HOME/myexpos/spl/spl_progs/resource_manager_module_0_s18.xsm
+load --module 4 $HOME/myexpos/spl/spl_progs/device_manager_module_4_s18.xsm
+load --int=6 $HOME/myexpos/spl/spl_progs/int_6_s16.xsm
+load --int=console $HOME/myexpos/spl/spl_progs/console_interrupt_s16.xsm
+load --int=9 $HOME/myexpos/spl/spl_progs/int_9_s19.xsm
+load --module 1 $HOME/myexpos/spl/spl_progs/process_manager_module_1_s21.xsm
+load --module 2 $HOME/myexpos/spl/spl_progs/memory_manager_module_2_s19.xsm
+load --int=disk $HOME/myexpos/spl/spl_progs/disk_interrupt_s18.xsm
+load --int=8 $HOME/myexpos/spl/spl_progs/int_8_fork_s20.xsm
+load --int=11 $HOME/myexpos/spl/spl_progs/int_11_s21.xsm
+load --int=15 $HOME/myexpos/spl/spl_progs/int_15_s21.xsm
+load --exec $HOME/myexpos/expl/expl_progs/oda_s20.xsm
+load --exec $HOME/myexpos/expl/expl_progs/eve_s20.xsm
