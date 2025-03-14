@@ -1,0 +1,24 @@
+explanation of os startup code of stage 6 and how page table and everything must be initialised
+loadi(65,7);
+loadi(66,8);
+loadi(22,35);
+loadi(23,36);
+loadi(2, 15);
+loadi(3, 16);
+till above everything same as for sample code stage 6
+ PTBR = PAGE_TABLE_BASE;
+ PTLR=9 since logical page no start from 0 to PTLR-1 and we wanted logical page 8 in assg so we have PTLR=9
+ location of page table entry =ptbr+2*logical page number
+ so we want the first page of code in logical page 4 so ptbr+2*4 must contain page 65 and similarly others
+ and remaining except these must have auxilary info as "0000" and first word as 0(that is first word denote page number maybe we might need to initialise it to -1)
+ [PTBR+8] = 65;
+[PTBR+9] = "0100";
+[PTBR+10] = 66;
+[PTBR+11] = "0100";
+[PTBR+16] = 76;
+[PTBR+17] = "0110";
+[76*512] = 2048;(this is the physical address of stack pointer 79*512 and this must contain the first application program to be executed as per abi and our logical address of first user instruction is present in page 4and page 4 address start from 4*512 
+
+SP = 8*512; since stack pointer logically begins on logical page 8 whose address starts from 8*512
+ireturn;
+this instruction is to switch the machine mode from kernel mode to user mode

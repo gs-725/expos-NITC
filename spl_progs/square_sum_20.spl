@@ -1,0 +1,5 @@
+alias n R0;
+inline "MOV R0,20";
+R1=(n*(n+1))/2;
+print R1;
+halt;

@@ -1,0 +1,10 @@
+[PROCESS_TABLE + ( [SYSTEM_STATUS_TABLE + 1] * 16) + 13] = SP;//setting the utpr feild
+SP=[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512-1;//USER TO KERNEL STACK SWITCH
+backup;
+[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+4]=READY;
+breakpoint;
+call SCHEDULER;
+breakpoint;
+restore;
+SP=[PROCESS_TABLE + ( [SYSTEM_STATUS_TABLE + 1] * 16) + 13];
+ireturn;
