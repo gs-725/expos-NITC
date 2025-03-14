@@ -1,0 +1,141 @@
+alias funcnum R1;
+
+if(funcnum==3)then
+	//open
+	alias fname R2;
+	alias i R3;
+	i=0;
+	while(i<MAX_FILE_NUM)do
+		if([INODE_TABLE+i*16+1]==fname)then
+			break;
+		endif;
+		i=i+1;
+	endwhile;
+	if(i>=MAX_FILE_NUM)then
+		R0=-1;
+		return;
+	endif;
+	multipush(R1,R2,R3);
+	R1=4;
+	R2=i;
+	R3=[SYSTEM_STATUS_TABLE+1];
+	call MOD_0;//acquire inode
+	multipop(R1,R2,R3);
+	if((R0==-1)||([INODE_TABLE+i*16]!=DATA))then
+		multipush(R1,R2,R3);
+		R1=5;
+		R2=i;
+		R3=[SYSTEM_STATUS_TABLE+1];
+		call MOD_0;//release inode
+		multipop(R1,R2,R3);
+		R0=-1;
+		return;
+	endif;
+	alias opfind R4;
+	opfind=0;
+	while(opfind<MAX_OPENFILE_NUM)do
+		if([OPEN_FILE_TABLE+opfind*4]==-1)then
+			break;
+		endif;	
+		opfind=opfind+1;
+	endwhile;
+	if(opfind>=MAX_OPENFILE_NUM)then
+		multipush(R1,R2,R3,R4);
+		R1=5;
+		R2=i;
+		R3=[SYSTEM_STATUS_TABLE+1];
+		call MOD_0;
+		R0=-2;
+		return;
+	endif;
+	if(fname=="root")then
+		[OPEN_FILE_TABLE+opfind*4]=INODE_ROOT;
+	else
+		[OPEN_FILE_TABLE+opfind*4]=i;
+		if([FILE_STATUS_TABLE+i*4+1]==-1)then
+			[FILE_STATUS_TABLE+i*4+1]=1;
+		else
+			[FILE_STATUS_TABLE+i*4+1]=[FILE_STATUS_TABLE+i*4+1]+1;
+		endif;
+	endif;
+	[OPEN_FILE_TABLE+opfind*4+1]=1;
+	[OPEN_FILE_TABLE+opfind*4+2]=0;
+	multipush(R1,R2,R3,R4);
+	R1=5;
+	R2=i;
+	R3=[SYSTEM_STATUS_TABLE+1];
+	call MOD_0;
+	multipop(R1,R2,R3,R4);
+	R0=opfind;
+	return;
+endif;
+if(funcnum==4)then
+	//close
+	alias opfind R2;
+	alias i R3;
+	i=[OPEN_FILE_TABLE+opfind*4];
+	[OPEN_FILE_TABLE+opfind*4+1]=[OPEN_FILE_TABLE+opfind*4+1]-1;
+	if([OPEN_FILE_TABLE+opfind*4+1]==0)then
+		[OPEN_FILE_TABLE+opfind*4]=-1;
+		[OPEN_FILE_TABLE+opfind*4+1]=-1;
+		[OPEN_FILE_TABLE+opfind*4+2]=-1;
+		[OPEN_FILE_TABLE+opfind*4+3]=-1;
+		if(i!=INODE_ROOT)then
+			[FILE_STATUS_TABLE+i*4+1]=[FILE_STATUS_TABLE+i*4+1]-1;
+		endif;
+		if([FILE_STATUS_TABLE+i*4+1]==0)then
+			[FILE_STATUS_TABLE+i*4+1]=-1;
+		endif;			
+	endif;
+	return;
+endif;
+if(funcnum==2)then
+	//buffered read
+	alias dblockno R2;
+	alias offset R3;
+	alias memadd R4;
+	alias buffno R5;
+	buffno=dblockno%4;
+	multipush(R1,R2,R3,R4,R5);
+	R1=1;
+	R2=buffno;
+	R3=[SYSTEM_STATUS_TABLE+1];
+	call MOD_0;
+	multipop(R1,R2,R3,R4,R5);
+	if([BUFFER_TABLE+buffno*4]!=dblockno)then
+		if([BUFFER_TABLE+buffno*4+1]==1)then
+			multipush(R1,R2,R3,R4,R5);
+			R1=1;
+			R2=[SYSTEM_STATUS_TABLE+1];//check is this the pid we must give or we must give the locking pid
+			R3=buffno+71;
+			R4=[BUFFER_TABLE+buffno*4];
+			call MOD_4;
+			multipop(R1,R2,R3,R4,R5);
+			
+		endif;
+		//[BUFFER_TABLE+buffno*4]=-1;
+		//[BUFFER_TABLE+buffno*4+1]=0;
+		//[BUFFER_TABLE+buffno*4+2]=-1;
+	
+	multipush(R1,R2,R3,R4,R5);
+		R1=2;
+		R4=dblockno;
+		R2=[SYSTEM_STATUS_TABLE+1];
+		R3=buffno+71;
+		
+		call MOD_4;
+	multipop(R1,R2,R3,R4,R5);
+	[BUFFER_TABLE+buffno*4]=dblockno;
+	//[BUFFER_TABLE+buffno*4+1]=0;
+	//[BUFFER_TABLE+buffno*4+2]=[SYSTEM_STATUS_TABLE+1];
+	endif;
+	[memadd]=[(buffno+71)*512+offset];
+	multipush(R1,R2,R3,R4,R5);
+	R1=2;
+	R2=buffno;
+	R3=[SYSTEM_STATUS_TABLE+1];
+	call MOD_0;
+	multipop(R1,R2,R3,R4,R5);
+	return;
+endif;
+

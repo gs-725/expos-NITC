@@ -1,0 +1,76 @@
+[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+13]=SP;
+alias usersp R15;
+usersp=SP;
+SP=[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512-1;
+alias syscallno R14;
+syscallno=[[PTBR+2*((usersp-5)/512)]*512+(usersp-5)%512];
+[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=syscallno;
+if(syscallno==2)then
+	alias fd R13;
+	fd=0;
+	while(fd<8)do
+		if([[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2]==-1)then
+			break;
+		endif;
+		fd=fd+1;
+	endwhile;
+	if(fd>=8)then
+		[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=-3;
+		SP=usersp;
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+		ireturn;
+	endif;	
+	alias fname R12;
+	fname=[[PTBR+2*((usersp-4)/512)]*512+(usersp-4)%512];
+	multipush(R15,R14,R13,R12);
+	R1=3;
+	R2=fname;
+	call MOD_3;
+	multipop(R15,R14,R13,R12);
+	if(R0==-1)then
+		[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=-1;
+		SP=usersp;
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+		ireturn;
+	endif;	
+	if(R0==-2)then
+		[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=-2;
+		SP=usersp;
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+		ireturn;
+	endif;
+	[[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2]=FILE;
+	[[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2+1]=R0;
+	[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=fd;
+	SP=usersp;
+	[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+	ireturn;	
+endif;
+if(syscallno==3)then
+	alias fd R13;
+	fd=[[PTBR+2*((usersp-4)/512)]*512+(usersp-4)%512];
+	if((fd<0)||(fd>7))then
+		[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=-1;
+		SP=usersp;
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+		ireturn;
+	endif;
+	if(([[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2]!=FILE))then
+		[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=-1;
+		SP=usersp;
+		[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+		ireturn;
+	endif;
+	alias opfind R12;
+	opfind=[[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2+1];
+	multipush(R15,R14,R13,R12);
+	R1=4;
+	R2=opfind;
+	call MOD_3;
+	multipop(R15,R14,R13,R12);
+	[[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512+496+fd*2]=-1;
+	[[PTBR+2*((usersp-1)/512)]*512+(usersp-1)%512]=0;
+	SP=usersp;
+	[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=0;
+	ireturn;
+endif;

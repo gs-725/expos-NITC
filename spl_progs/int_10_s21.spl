@@ -1,0 +1,25 @@
+[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+9]=10;
+SP=[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+11]*512-1;
+R1=3;
+R2=[SYSTEM_STATUS_TABLE+1];
+call MOD_1;
+
+[PROCESS_TABLE+[SYSTEM_STATUS_TABLE+1]*16+4]=TERMINATED;
+alias i R0;
+i=15;
+while(i>=0)do
+	if([PROCESS_TABLE+i*16+4]==READY||[PROCESS_TABLE+i*16+4]==CREATED)then
+		call SCHEDULER;
+		if([PROCESS_TABLE+i*16+4]==READY)then
+		restore;
+		SP=[PROCESS_TABLE + ( [SYSTEM_STATUS_TABLE + 1] * 16) + 13];
+		endif;
+		
+		ireturn;
+	else
+		i=i-1;
+	endif;
+endwhile;
+//here instead of halting the system when no other process is present we will schedule the idle process and keep it running until shutdown is called
+	
+		
