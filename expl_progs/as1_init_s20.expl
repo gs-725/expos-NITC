@@ -1,0 +1,24 @@
+int main()
+{
+decl
+	str a;
+	int b;
+	str c;
+enddecl
+begin
+	
+	
+	b=exposcall("Fork");
+	if(b==0)then
+		a="oda_s20.xsm";
+		b=exposcall("Exec",a);
+	else
+		if(b!=-1)then
+		   c="eve_s20.xsm";
+		   b=exposcall("Exec",c);
+		endif;
+	endif;	   
+		
+	return 0;
+end
+}	

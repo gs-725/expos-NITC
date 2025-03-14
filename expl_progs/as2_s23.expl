@@ -1,0 +1,17 @@
+int main()
+{
+	decl
+		int b,a;
+		str c,d;
+	enddecl
+	begin
+		d="Filename";
+		b=exposcall("Write",-2,d);
+		b=exposcall("Read",-1,c);
+		b=exposcall("Delete",c);
+		if(b==0)then
+			b=exposcall("Write",-2,"Sucess");
+		endif;
+	return 0;	
+	end
+}
